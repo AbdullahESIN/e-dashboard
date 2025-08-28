@@ -52,7 +52,7 @@
   border: solid 1px;
   cursor: pointer;
 }
-.register{
+.register, .product{
   margin-left: 30%;
 }
 
