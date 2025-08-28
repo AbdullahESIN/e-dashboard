@@ -61,6 +61,23 @@
   margin-left: 30%;
 }
 
+.nav-right{
+  text-align: right;
+}
+
+.logo{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  float: left;
+  margin-top: 3px;
+  margin-left: 10px;
+}
+
+.nav-right li{
+  display: inline-block;
+}
+
 .inputBox {
   padding: 7px;
   display: block;
