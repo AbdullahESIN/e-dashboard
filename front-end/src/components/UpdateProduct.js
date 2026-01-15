@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { apiCall } from '../utils/api';
 import { showSuccess, showError } from '../utils/toast';
 
-const AddProduct = () => {
+const UpdateProduct = () => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
     const [company, setCompany] = useState("");
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(false);
+    const params = useParams();
     const navigate = useNavigate();
 
     useEffect(() => {
+        getProductDetails();
         getCategories();
     }, []);
 
@@ -27,7 +29,22 @@ const AddProduct = () => {
         }
     }
 
-    const addProduct = async () => {
+    const getProductDetails = async () => {
+        try {
+            const result = await apiCall(`/product/${params.id}`);
+            if(result && result.name){
+                setName(result.name);
+                setPrice(result.price);
+                setCategory(result.category);
+                setCompany(result.company);
+            }
+        } catch (error) {
+            showError(error.message || "Ürün bilgileri yüklenemedi!");
+            navigate('/');
+        }
+    }
+
+    const updateProduct = async () => {
         if(!name || !price || !category || !company){
             showError("Lütfen tüm alanları doldurun!");
             return;
@@ -35,33 +52,29 @@ const AddProduct = () => {
 
         setLoading(true);
         try {
-            const result = await apiCall('/add-product', {
-                method: 'post',
+            const result = await apiCall(`/product/${params.id}`, {
+                method: 'put',
                 body: JSON.stringify({name, price, category, company})
             });
-            
             if(result){
-                showSuccess("Ürün başarıyla eklendi!");
-                setName("");
-                setPrice("");
-                setCategory("");
-                setCompany("");
+                showSuccess("Ürün başarıyla güncellendi!");
                 navigate('/');
             }
         } catch (error) {
-            showError(error.message || "Ürün eklenemedi!");
+            showError(error.message || "Ürün güncellenemedi!");
         } finally {
             setLoading(false);
         }
     }
+
     return (
         <div className='product'>
-            <h1>➕ Ürün Ekle</h1>
+            <h1>✏️ Ürün Güncelle</h1>
             <input type="text" placeholder='📦 Ürün İsmi' className='inputBox'
-            value={name} onChange={(e) => setName(e.target.value)}
+                value={name} onChange={(e) => setName(e.target.value)}
             />
             <input type="text" placeholder='💰 Ürün Fiyatı (₺)' className='inputBox'
-            value={price} onChange={(e) => setPrice(e.target.value)}
+                value={price} onChange={(e) => setPrice(e.target.value)}
             />
             {categories.length > 0 ? (
                 <select className='inputBox' value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -71,23 +84,18 @@ const AddProduct = () => {
                     ))}
                 </select>
             ) : (
-                <>
-                    <input type="text" placeholder='🏷️ Ürün Kategorisi' className='inputBox'
-                    value={category} onChange={(e) => setCategory(e.target.value)}
-                    />
-                    <p style={{fontSize: '0.875rem', color: 'var(--text-secondary)', marginTop: '-0.5rem'}}>
-                        Kategori yönetimi için <a href="/categories" style={{color: 'var(--primary-color)'}}>Kategoriler</a> sayfasına gidin
-                    </p>
-                </>
+                <input type="text" placeholder='🏷️ Ürün Kategorisi' className='inputBox'
+                value={category} onChange={(e) => setCategory(e.target.value)}
+                />
             )}
             <input type="text" placeholder='🏢 Şirket' className='inputBox'
-            value={company} onChange={(e) => setCompany(e.target.value)}
+                value={company} onChange={(e) => setCompany(e.target.value)}
             />
-            <button  className ='appButton' onClick={addProduct} disabled={loading}>
-                {loading ? 'Ekleniyor...' : 'Ürün Ekle'}
+            <button className='appButton' onClick={updateProduct} disabled={loading}>
+                {loading ? 'Güncelleniyor...' : 'Ürünü Güncelle'}
             </button>
         </div>
     )
 }
 
-export default AddProduct;
+export default UpdateProduct;

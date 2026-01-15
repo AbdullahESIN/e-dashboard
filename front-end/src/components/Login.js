@@ -1,42 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiCall, saveUser } from '../utils/api';
+import { showSuccess, showError } from '../utils/toast';
 
 const Login = () => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    
     useEffect(() => {
         const auth = localStorage.getItem('user');
         if(auth){
             navigate('/');
         }
-    }, []);
+    }, [navigate]);
+    
     const handleLogin = async () => {
-        let result = await fetch("http://localhost:5000/login", {
-            method: 'post',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        result = await result.json();
-        console.warn(result);
-
-
-        if(result.name){
-            localStorage.setItem("user",JSON.stringify(result));
-            navigate('/');
+        if(!email || !password){
+            showError("Lütfen email ve şifre giriniz!");
+            return;
         }
-        else{
-            alert("Please enter valid credentials");
+
+        setLoading(true);
+        try {
+            const result = await apiCall('/login', {
+                method: 'post',
+                body: JSON.stringify({ email, password })
+            });
+
+            if(result && result.name && result.token){
+                saveUser(result);
+                showSuccess(`Hoş geldiniz, ${result.name}!`);
+                navigate('/');
+            }
+            else{
+                showError(result?.result || result?.message || "Geçerli bilgileri giriniz");
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            showError(error.message || "Giriş başarısız!");
+        } finally {
+            setLoading(false);
         }
     }
     return (
         <div className='login'>
-            <h1>Login</h1>
-            <input type="text" className='inputBox' placeholder='Enter Email'
+            <h1>🔐 Giriş Yap</h1>
+            <input type="text" className='inputBox' placeholder='📧 Email adresiniz'
                 onChange={(e) => setEmail(e.target.value)} value={email} />
-            <input type="password" className='inputBox' placeholder='Enter Password'
+            <input type="password" className='inputBox' placeholder='🔒 Şifreniz'
                 onChange={(e) => setPassword(e.target.value)} value={password} />
-            <button onClick={handleLogin} className='appButton' type="button">Login</button>
+            <button onClick={handleLogin} className='appButton' type="button" disabled={loading}>
+                {loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}
+            </button>
         </div>
     )
 }

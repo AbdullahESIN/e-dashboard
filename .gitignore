@@ -47,6 +47,10 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+.env.local
+.env.*.local
+# .env.example dosyasını commit edebiliriz (örnek dosya)
+!.env.example
 
 # IDE files
 .vscode/
@@ -62,3 +66,13 @@ jspm_packages/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Test and temporary files
+*.log
+test-*.js
+check-*.js
+cleanup-*.js
+
+# Build outputs
+front-end/build/
+backend/dist/

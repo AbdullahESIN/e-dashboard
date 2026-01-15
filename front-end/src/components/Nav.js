@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { getUser, logout } from '../utils/api';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Nav = () => {
-    const auth = localStorage.getItem('user');
+    const auth = getUser();
     const navigate = useNavigate();
-    const logout = () => {
-        localStorage.clear();
+    const { isDark, toggleTheme } = useTheme();
+    const handleLogout = () => {
+        logout();
         navigate('/signup');
     }
     return (
@@ -18,11 +21,25 @@ const Nav = () => {
                 auth ?
 
                     <ul className="nav-ul">
-                        <li><Link to="/">Products</Link></li>
-                        <li><Link to="/add">Add Products</Link></li>
-                        <li><Link to="/update">Update Products</Link></li>
-                        <li><Link to="/profile">Profile</Link></li>
-                        <li> <Link onClick={logout} to="/signup">Logout ({JSON.parse(auth).name})</Link></li> :
+                        <li><Link to="/">Dashboard</Link></li>
+                        <li><Link to="/products">Ürünler</Link></li>
+                        <li><Link to="/add">Ürün Ekle</Link></li>
+                        <li><Link to="/categories">Kategoriler</Link></li>
+                        <li><Link to="/profile">Profil</Link></li>
+                        <li>
+                            <button onClick={toggleTheme} style={{
+                                background: 'rgba(255,255,255,0.2)',
+                                border: 'none',
+                                color: 'white',
+                                padding: '0.5rem 1rem',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontSize: '1.2rem'
+                            }}>
+                                {isDark ? '☀️' : '🌙'}
+                            </button>
+                        </li>
+                        <li> <Link onClick={handleLogout} to="/signup">Çıkış ({auth?.name})</Link></li>
                     </ul>
                     : <ul className="nav-ul nav-right">
                         <li><Link to="/login">Login</Link></li>
