@@ -2,25 +2,58 @@
 
 React ve Node.js ile geliştirilmiş tam yığın (full-stack) bir e-ticaret dashboard uygulaması.
 
-## Proje Yapısı
+## 📋 İçindekiler
 
-- `front-end/` - React uygulaması
-- `backend/` - Node.js/Express sunucusu
-- `backend/db/` - MongoDB modelleri ve yapılandırması
+- [Proje Yapısı](#proje-yapısı)
+- [Kurulum](#kurulum)
+- [Özellikler](#özellikler)
+- [API Endpoints](#api-endpoints)
+- [Güvenlik](#güvenlik)
+- [Teknolojiler](#teknolojiler)
+- [Geliştirme Notları](#geliştirme-notları)
 
-## Kurulum Talimatları
+## 📁 Proje Yapısı
+
+```
+e-dashboard/
+├── backend/          # Node.js/Express API
+│   ├── db/          # MongoDB modelleri
+│   ├── middleware/  # JWT authentication
+│   └── index.js     # API endpoints
+├── front-end/        # React uygulaması
+│   ├── src/
+│   │   ├── components/  # React component'leri
+│   │   ├── contexts/    # Context API (Auth, Product, Theme)
+│   │   └── utils/       # Yardımcı fonksiyonlar
+└── README.md
+```
+
+## 🚀 Kurulum
 
 ### Ön Gereksinimler
 
 - Node.js (v14 veya üzeri)
-- MongoDB (yerel olarak kurulu veya MongoDB Atlas)
+- MongoDB (yerel veya MongoDB Atlas)
 - npm veya yarn
 
 ### MongoDB Kurulumu
 
-1. MongoDB'yi bilgisayarınıza kurun: [MongoDB Download](https://www.mongodb.com/try/download/community)
-2. MongoDB servisini başlatın (Windows'ta genellikle otomatik başlar)
-3. Alternatif olarak MongoDB Atlas kullanabilirsiniz (bulut veritabanı)
+#### Yerel MongoDB
+
+1. MongoDB Community Server'ı indirin: [MongoDB Download](https://www.mongodb.com/try/download/community)
+2. MongoDB servisini başlatın:
+   ```powershell
+   net start MongoDB
+   ```
+3. MongoDB Compass ile bağlanın:
+   - Connection string: `mongodb://localhost:27017`
+   - Database otomatik oluşturulacak (ilk veri kaydında)
+
+#### MongoDB Atlas (Bulut)
+
+1. MongoDB Atlas'ta ücretsiz cluster oluşturun
+2. Connection string'i alın
+3. `.env` dosyasına ekleyin (aşağıdaki bölüme bakın)
 
 ### Backend Kurulumu
 
@@ -29,15 +62,21 @@ cd backend
 npm install
 ```
 
-MongoDB bağlantısını yapılandırmak için:
-- Yerel MongoDB kullanıyorsanız: `backend/db/config.js` dosyasındaki varsayılan bağlantı string'i kullanılır (`mongodb://localhost:27017/e-commerce`)
-- MongoDB Atlas kullanıyorsanız: `.env` dosyası oluşturup `MONGODB_URI` değişkenini ekleyin
+**Environment Variables:**
 
-Backend'i başlatmak için:
+`backend/.env` dosyası oluşturun:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/e-commerce
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+PORT=5000
+```
+
+**ÖNEMLİ:** Üretim ortamında `JWT_SECRET` değerini mutlaka güçlü bir değerle değiştirin!
+
+Backend'i başlatın:
 ```bash
 npm start
-# veya geliştirme modu için:
-npm run dev
 ```
 
 Backend varsayılan olarak `http://localhost:5000` portunda çalışır.
@@ -52,84 +91,173 @@ npm start
 
 Frontend varsayılan olarak `http://localhost:3000` portunda çalışır.
 
-## Kullanılan Teknolojiler
+## ✨ Özellikler
 
-- **Frontend**: React, React Router DOM
-- **Backend**: Node.js, Express.js
-- **Veritabanı**: MongoDB (Mongoose ODM)
-- **Güvenlik**: bcryptjs (şifre şifreleme), jsonwebtoken (JWT authentication)
-- **Diğer**: CORS, Nodemon, dotenv
+### ✅ Tamamlanan Özellikler
 
-## Özellikler
+- **Kullanıcı Yönetimi**
+  - ✅ Kullanıcı kaydı (Sign Up)
+  - ✅ Kullanıcı girişi (Login)
+  - ✅ JWT token authentication
+  - ✅ Güvenli şifre saklama (bcrypt)
+  - ✅ Kullanıcı profili
 
-- ✅ Kullanıcı kimlik doğrulama (Kayıt/Giriş)
-- ✅ **Şifre şifreleme (bcrypt)** - Güvenli şifre saklama
-- ✅ **JWT Token Authentication** - Güvenli oturum yönetimi
-- ✅ Ürün yönetimi (Ekleme, Listeleme, Güncelleme, Silme)
-- ✅ Ürün arama özelliği
-- ✅ Kullanıcı profili
-- ✅ Özel route koruması (Private Routes)
-- ✅ API endpoint koruması (Token doğrulama)
-- ✅ Kullanıcı bazlı veri izolasyonu (her kullanıcı sadece kendi ürünlerini görür)
-- ✅ Responsive tasarım
+- **Ürün Yönetimi**
+  - ✅ Ürün ekleme
+  - ✅ Ürün listeleme
+  - ✅ Ürün güncelleme
+  - ✅ Ürün silme
+  - ✅ Ürün arama
+  - ✅ Gelişmiş filtreleme (kategori, fiyat sıralama)
+  - ✅ Pagination (sayfalama)
 
-## API Endpoints
+- **Kategori Yönetimi**
+  - ✅ Kategori ekleme
+  - ✅ Kategori listeleme
+  - ✅ Kategori güncelleme
+  - ✅ Kategori silme
+  - ✅ Ürün ekleme/güncelleme sayfalarında dropdown
+
+- **Dashboard**
+  - ✅ Toplam ürün sayısı
+  - ✅ Toplam kategori sayısı
+  - ✅ Kategori dağılımı
+  - ✅ Son eklenen ürünler
+
+- **Kullanıcı Deneyimi**
+  - ✅ Modern UI tasarımı
+  - ✅ Toast notification sistemi
+  - ✅ Loading states
+  - ✅ Dark mode desteği
+  - ✅ Responsive tasarım
+  - ✅ Form validation
+
+- **Güvenlik**
+  - ✅ Bcrypt ile şifre hash'leme
+  - ✅ JWT token authentication
+  - ✅ Protected routes
+  - ✅ Rate limiting (brute force koruması)
+  - ✅ Kullanıcı bazlı veri izolasyonu
+
+## 🔌 API Endpoints
 
 ### Kullanıcı İşlemleri
-- `POST /register` - Yeni kullanıcı kaydı (şifre otomatik hash'lenir, JWT token döner)
-- `POST /login` - Kullanıcı girişi (JWT token döner)
 
-### Ürün İşlemleri (Tüm endpoint'ler JWT token gerektirir)
-- `GET /products` - Kullanıcının kendi ürünlerini listele
+- `POST /register` - Yeni kullanıcı kaydı
+  - Şifre otomatik hash'lenir
+  - JWT token döner
+  - Rate limit: 3 kayıt / 1 saat
+
+- `POST /login` - Kullanıcı girişi
+  - JWT token döner
+  - Rate limit: 5 deneme / 15 dakika
+
+### Ürün İşlemleri (JWT token gerekli)
+
+- `GET /products?page=1&limit=10` - Ürünleri listele (pagination destekli)
 - `POST /add-product` - Yeni ürün ekle
-- `GET /product/:id` - Belirli bir ürünü getir (sadece kendi ürünü)
-- `PUT /product/:id` - Ürün güncelle (sadece kendi ürünü)
-- `DELETE /product/:id` - Ürün sil (sadece kendi ürünü)
-- `GET /search/:key` - Ürün ara (sadece kendi ürünlerinde)
+- `GET /product/:id` - Belirli bir ürünü getir
+- `PUT /product/:id` - Ürün güncelle
+- `DELETE /product/:id` - Ürün sil
+- `GET /search/:key` - Ürün ara
 
-## Güvenlik Özellikleri
+### Kategori İşlemleri (JWT token gerekli)
 
-- ✅ **Şifre Şifreleme**: Tüm şifreler bcrypt ile hash'lenerek saklanır
-- ✅ **JWT Authentication**: Güvenli token tabanlı kimlik doğrulama
-- ✅ **Protected Routes**: Tüm ürün endpoint'leri token doğrulama gerektirir
-- ✅ **Veri İzolasyonu**: Her kullanıcı sadece kendi ürünlerini görür/düzenler
-- ✅ **Token Expiration**: Token'lar 7 gün sonra otomatik geçersiz olur
+- `GET /categories` - Kategorileri listele
+- `POST /add-category` - Yeni kategori ekle
+- `PUT /category/:id` - Kategori güncelle
+- `DELETE /category/:id` - Kategori sil
 
-## Yapılandırma
+## 🔒 Güvenlik
 
-### Backend Environment Variables
+### Şifre Güvenliği
 
-Backend klasöründe `.env` dosyası oluşturun:
+- Tüm şifreler **bcrypt** ile hash'lenerek saklanır (10 salt rounds)
+- Şifreler veritabanında düz metin olarak görünmez
+- Login sırasında hash karşılaştırması yapılır
 
-```env
-MONGODB_URI=mongodb://localhost:27017/e-commerce
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-PORT=5000
-```
+### JWT Authentication
 
-**ÖNEMLİ**: Üretim ortamında `JWT_SECRET` değerini mutlaka değiştirin!
+- Token süresi: **7 gün**
+- Token format: `Bearer TOKEN`
+- Tüm protected endpoint'ler token gerektirir
+- Token süresi dolduğunda otomatik logout
 
-### Frontend Environment Variables (Opsiyonel)
+### Rate Limiting
 
-Frontend klasöründe `.env` dosyası oluşturun:
+- **Login:** 5 deneme / 15 dakika
+- **Register:** 3 kayıt / 1 saat
+- Brute force saldırılarına karşı koruma
 
-```env
-REACT_APP_API_URL=http://localhost:5000
-```
+### Veri İzolasyonu
 
-## Geliştirme Notları
+- Her kullanıcı sadece kendi ürünlerini görür/düzenler/siler
+- Kategori yönetimi kullanıcı bazlı
+- API endpoint'lerinde otomatik filtreleme
+
+## 🛠️ Teknolojiler
+
+### Frontend
+- **React** - UI framework
+- **React Router DOM** - Routing
+- **Context API** - State management
+- **Axios** - HTTP client (hazır, kullanıma hazır)
+- **react-toastify** - Toast notifications
+- **CSS3** - Modern styling
+
+### Backend
+- **Node.js** - Runtime
+- **Express.js** - Web framework
+- **MongoDB** - Database
+- **Mongoose** - ODM
+- **bcryptjs** - Password hashing
+- **jsonwebtoken** - JWT authentication
+- **express-rate-limit** - Rate limiting
+- **CORS** - Cross-origin resource sharing
+- **dotenv** - Environment variables
+
+## 📝 Geliştirme Notları
+
+### Backend
 
 - Backend ve Frontend ayrı portlarda çalışır
 - MongoDB bağlantısı için `backend/db/config.js` dosyasını kontrol edin
 - JWT token localStorage'da saklanır
 - Token süresi dolduğunda otomatik olarak login sayfasına yönlendirilir
 
-## Gelecek Geliştirmeler
+### Frontend
 
-- [ ] Rate limiting (API saldırı koruması)
-- [ ] Şifre sıfırlama özelliği
-- [ ] Ürün görselleri
-- [ ] Kategori yönetimi
-- [ ] Sipariş yönetimi
-- [ ] Admin paneli
+- API çağrıları `utils/api.js` üzerinden yapılır
+- Token otomatik olarak header'a eklenir
+- Context API ile global state yönetimi
+- Dark mode tercihi localStorage'da saklanır
+
+### Veritabanı
+
+- Database ve collection'lar otomatik oluşturulur
+- İlk veri kaydından önce database görünmeyebilir (normal)
+- Schema validation'lar aktif
+
+## 🎯 Gelecek Geliştirmeler
+
+Detaylı geliştirme planı için [GELISTIRME_PLANI.md](./GELISTIRME_PLANI.md) dosyasına bakın.
+
+**Öncelikli Özellikler:**
+- [ ] Ürün görselleri (image upload)
+- [ ] Şifre sıfırlama (email ile token)
 - [ ] Email doğrulama
+- [ ] Admin paneli
+- [ ] Export/Import (CSV, Excel)
+- [ ] Grafikler ve görselleştirmeler
+
+## 📄 Lisans
+
+Bu proje eğitim amaçlı geliştirilmiştir.
+
+## 👤 Geliştirici
+
+Abdullah ESIN
+
+---
+
+**Not:** Bu proje sürekli geliştirilmektedir. Yeni özellikler ve iyileştirmeler eklenmeye devam edecektir.

@@ -1,329 +1,318 @@
 # 🚀 E-Dashboard Geliştirme Planı
 
-## 📊 Mevcut Durum Özeti
-- ✅ Temel CRUD işlemleri (Create, Read, Update, Delete)
+## 📊 Mevcut Durum
+
+### ✅ Tamamlanan Özellikler
+
+- ✅ Temel CRUD işlemleri (Ürün, Kategori)
 - ✅ Kullanıcı kayıt/giriş sistemi
-- ✅ Ürün yönetimi
-- ✅ Basit arama özelliği
-- ✅ Validation (yeni eklendi)
+- ✅ JWT authentication ve bcrypt şifre hash'leme
+- ✅ Toast notification sistemi
+- ✅ Kategori yönetimi (CRUD)
+- ✅ Gelişmiş arama ve filtreleme
+- ✅ Dashboard ve istatistikler
+- ✅ Context API ile state management
+- ✅ Pagination
+- ✅ Dark mode
+- ✅ Rate limiting
+- ✅ Modern UI tasarımı
+- ✅ Form validation
 
 ---
 
-## 🔒 1. GÜVENLİK (Yüksek Öncelik)
+## 🎯 Gelecek Geliştirmeler
 
-### 1.1 Şifre Şifreleme (bcrypt)
-**Durum:** ⚠️ Şifreler düz metin
-**Önemi:** 🔴 Kritik
-- [ ] `bcryptjs` paketini kur
-- [ ] Register endpoint'inde şifre hash'le
-- [ ] Login endpoint'inde hash karşılaştır
-- [ ] Mevcut şifreleri hash'le (migration script)
+### 1. 🔒 Güvenlik İyileştirmeleri
 
-**Fayda:** Kullanıcı şifreleri güvenli şekilde saklanır
+#### 1.1 Şifre Sıfırlama
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 3-4 saat
 
-### 1.2 JWT Token Authentication
-**Durum:** ⚠️ localStorage'da düz metin kullanıcı bilgisi
-**Önemi:** 🔴 Kritik
-- [ ] `jsonwebtoken` paketini kur
-- [ ] Login'de JWT token oluştur
-- [ ] Token'ı localStorage'a kaydet
-- [ ] Protected route'larda token doğrula
-- [ ] Token refresh mekanizması
+- Şifre sıfırlama sayfası
+- Email ile token gönderme
+- Yeni şifre belirleme
+- Token expiration kontrolü
 
-**Fayda:** Daha güvenli kimlik doğrulama, token expiration
+#### 1.2 Email Doğrulama
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 4-5 saat
 
-### 1.3 API Güvenlik
-**Durum:** ⚠️ Herkes tüm endpoint'lere erişebilir
-**Önemi:** 🟡 Orta
-- [ ] Middleware ile token doğrulama
-- [ ] Rate limiting (brute force koruması)
-- [ ] CORS ayarlarını sıkılaştır
-- [ ] Input sanitization (XSS, NoSQL injection)
+- Kayıt sonrası email doğrulama
+- Email servisi entegrasyonu (Nodemailer)
+- Doğrulama linki gönderme
+- Hesap aktivasyonu
 
-**Fayda:** API saldırılarına karşı koruma
+#### 1.3 Refresh Token
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
 
-### 1.4 Şifre Sıfırlama
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] Şifre sıfırlama sayfası
-- [ ] Email ile token gönderme
-- [ ] Yeni şifre belirleme
+- Access token + refresh token mekanizması
+- Token yenileme endpoint'i
+- Otomatik token refresh
 
-**Fayda:** Kullanıcı deneyimi iyileşir
+#### 1.4 2FA (İki Faktörlü Kimlik Doğrulama)
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐⭐⭐ Çok Zor  
+**Tahmini Süre:** 6-8 saat
 
----
-
-## 🎨 2. KULLANICI DENEYİMİ (UX/UI)
-
-### 2.1 Loading States
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] API çağrılarında loading spinner
-- [ ] Button'larda loading state
-- [ ] Skeleton screens (ürün listesi için)
-
-**Fayda:** Kullanıcı işlemlerin devam ettiğini görür
-
-### 2.2 Error Handling
-**Durum:** ⚠️ Sadece alert()
-**Önemi:** 🟡 Orta
-- [ ] Toast notification sistemi
-- [ ] Hata mesajlarını kullanıcı dostu göster
-- [ ] Network hatalarını yakala
-- [ ] 404, 500 sayfaları
-
-**Fayda:** Daha iyi kullanıcı deneyimi
-
-### 2.3 Form İyileştirmeleri
-**Durum:** ⚠️ Basit input'lar
-**Önemi:** 🟢 Düşük
-- [ ] Form validation mesajları (input altında)
-- [ ] Password strength indicator
-- [ ] Email format kontrolü (gerçek zamanlı)
-- [ ] Form reset butonu
-
-**Fayda:** Daha iyi form deneyimi
-
-### 2.4 Responsive Tasarım
-**Durum:** ⚠️ Temel
-**Önemi:** 🟡 Orta
-- [ ] Mobil uyumlu navigation
-- [ ] Tablet görünümü
-- [ ] Touch-friendly butonlar
-- [ ] Responsive tablo (ürün listesi)
-
-**Fayda:** Mobil kullanıcılar için erişilebilirlik
-
-### 2.5 Modern UI Kütüphanesi
-**Durum:** ⚠️ Custom CSS
-**Önemi:** 🟢 Düşük (opsiyonel)
-- [ ] Material-UI veya Tailwind CSS
-- [ ] Icon kütüphanesi (react-icons)
-- [ ] Animasyonlar (framer-motion)
-
-**Fayda:** Daha modern ve tutarlı görünüm
+- TOTP (Time-based One-Time Password)
+- QR kod ile cihaz ekleme
+- Backup kodlar
 
 ---
 
-## ⚡ 3. ÖZELLİK EKLEMELERİ
+### 2. 📸 Ürün Görselleri
 
-### 3.1 Ürün Görselleri
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] Image upload (multer)
-- [ ] Image preview
-- [ ] Cloud storage (Cloudinary/AWS S3)
-- [ ] Product card'larda görsel gösterimi
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 4-5 saat
 
-**Fayda:** Daha zengin ürün bilgisi
-
-### 3.2 Kategori Yönetimi
-**Durum:** ⚠️ Manuel text input
-**Önemi:** 🟡 Orta
-- [ ] Kategori modeli oluştur
-- [ ] Kategori CRUD işlemleri
-- [ ] Dropdown ile kategori seçimi
-- [ ] Kategoriye göre filtreleme
-
-**Fayda:** Daha organize ürün yönetimi
-
-### 3.3 Gelişmiş Arama ve Filtreleme
-**Durum:** ⚠️ Basit text arama
-**Önemi:** 🟡 Orta
-- [ ] Fiyat aralığı filtresi
-- [ ] Kategori filtresi
-- [ ] Sıralama (fiyat, tarih, isim)
-- [ ] Pagination (sayfalama)
-
-**Fayda:** Daha kolay ürün bulma
-
-### 3.4 Kullanıcı İstatistikleri
-**Durum:** ❌ Yok
-**Önemi:** 🟢 Düşük
-- [ ] Toplam ürün sayısı
-- [ ] Kategori dağılımı
-- [ ] Grafikler (Chart.js)
-- [ ] Dashboard sayfası
-
-**Fayda:** Kullanıcı kendi verilerini görür
-
-### 3.5 Ürün Detay Sayfası
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] Tek ürün görüntüleme
-- [ ] Ürün düzenleme modal'ı
-- [ ] Ürün silme onayı
-
-**Fayda:** Daha detaylı ürün yönetimi
-
-### 3.6 Export/Import
-**Durum:** ❌ Yok
-**Önemi:** 🟢 Düşük
-- [ ] CSV export
-- [ ] Excel export
-- [ ] CSV import
-- [ ] Bulk operations
-
-**Fayda:** Veri yönetimi kolaylaşır
+- Image upload (multer)
+- Image preview
+- Cloud storage (Cloudinary/AWS S3)
+- Product card'larda görsel gösterimi
+- Çoklu görsel desteği
+- Görsel sıkıştırma
 
 ---
 
-## 🏗️ 4. KOD KALİTESİ
+### 3. 📊 Dashboard İyileştirmeleri
 
-### 4.1 State Management
-**Durum:** ⚠️ Local state + localStorage
-**Önemi:** 🟡 Orta
-- [ ] Context API ile global state
-- [ ] Auth context
-- [ ] Product context
-- [ ] Redux (opsiyonel, büyük projeler için)
+#### 3.1 Grafikler ve Görselleştirme
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 3-4 saat
 
-**Fayda:** Daha organize state yönetimi
+- Chart.js veya Recharts entegrasyonu
+- Kategori dağılımı grafiği
+- Aylık ürün ekleme grafiği
+- Fiyat dağılımı grafiği
 
-### 4.2 API Client
-**Durum:** ⚠️ Fetch doğrudan kullanılıyor
-**Önemi:** 🟡 Orta
-- [ ] Axios kurulumu
-- [ ] API service dosyası
-- [ ] Interceptors (token ekleme, hata yakalama)
-- [ ] Base URL configuration
+#### 3.2 İstatistik Detayları
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐ Kolay  
+**Tahmini Süre:** 1-2 saat
 
-**Fayda:** Daha temiz ve yönetilebilir API çağrıları
-
-### 4.3 Environment Variables
-**Durum:** ⚠️ Hardcoded URL'ler
-**Önemi:** 🟡 Orta
-- [ ] `.env` dosyası (frontend)
-- [ ] `.env` dosyası (backend)
-- [ ] API URL'leri environment'tan
-- [ ] Git ignore'a ekle
-
-**Fayda:** Farklı ortamlar için kolay yapılandırma
-
-### 4.4 Code Organization
-**Durum:** ⚠️ Temel
-**Önemi:** 🟢 Düşük
-- [ ] Hooks klasörü (custom hooks)
-- [ ] Utils klasörü (helper functions)
-- [ ] Constants dosyası
-- [ ] Types/Interfaces (TypeScript'e geçiş)
-
-**Fayda:** Daha organize kod yapısı
-
-### 4.5 Testing
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] Unit testler (Jest)
-- [ ] Component testleri (React Testing Library)
-- [ ] API testleri
-- [ ] E2E testler (Cypress)
-
-**Fayda:** Kod kalitesi ve güvenilirlik
+- En çok kullanılan kategoriler
+- Ortalama ürün fiyatı
+- Toplam değer hesaplama
 
 ---
 
-## 🚀 5. PERFORMANS
+### 4. 🔍 Arama ve Filtreleme İyileştirmeleri
 
-### 5.1 Lazy Loading
-**Durum:** ⚠️ Tüm component'ler yükleniyor
-**Önemi:** 🟡 Orta
-- [ ] React.lazy() ile code splitting
-- [ ] Route bazlı lazy loading
-- [ ] Image lazy loading
+#### 4.1 Gelişmiş Filtreler
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
 
-**Fayda:** Daha hızlı ilk yükleme
+- Fiyat aralığı filtresi (min-max)
+- Tarih aralığı filtresi
+- Çoklu kategori seçimi
+- Filtreleri kaydetme (localStorage)
 
-### 5.2 Caching
-**Durum:** ❌ Yok
-**Önemi:** 🟢 Düşük
-- [ ] React Query veya SWR
-- [ ] API response caching
-- [ ] Stale-while-revalidate pattern
+#### 4.2 Full-Text Search
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 3-4 saat
 
-**Fayda:** Daha hızlı sayfa geçişleri
-
-### 5.3 Database Optimizasyonu
-**Durum:** ⚠️ Temel
-**Önemi:** 🟡 Orta
-- [ ] Index'ler ekle (email, userId)
-- [ ] Pagination backend'de
-- [ ] Select only needed fields
-- [ ] Aggregation pipeline optimizasyonu
-
-**Fayda:** Daha hızlı sorgular
+- MongoDB text index
+- Arama önerileri
+- Arama geçmişi
 
 ---
 
-## 📱 6. EK ÖZELLİKLER
+### 5. 📤 Export/Import
 
-### 6.1 Dark Mode
-**Durum:** ❌ Yok
-**Önemi:** 🟢 Düşük
-- [ ] Theme context
-- [ ] CSS variables ile tema
-- [ ] Toggle butonu
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 3-4 saat
 
-**Fayda:** Kullanıcı tercihi
-
-### 6.2 Çoklu Dil Desteği
-**Durum:** ❌ Sadece Türkçe
-**Önemi:** 🟢 Düşük
-- [ ] i18n (react-i18next)
-- [ ] Dil dosyaları
-- [ ] Dil değiştirme butonu
-
-**Fayda:** Uluslararası kullanım
-
-### 6.3 Bildirimler
-**Durum:** ❌ Yok
-**Önemi:** 🟢 Düşük
-- [ ] Browser notifications
-- [ ] In-app notifications
-- [ ] Email bildirimleri (opsiyonel)
-
-**Fayda:** Kullanıcı bilgilendirme
-
-### 6.4 Admin Paneli
-**Durum:** ❌ Yok
-**Önemi:** 🟡 Orta
-- [ ] Admin rolü
-- [ ] Tüm kullanıcıları görüntüleme
-- [ ] Tüm ürünleri yönetme
-- [ ] İstatistikler
-
-**Fayda:** Sistem yönetimi
+- CSV export
+- Excel export
+- CSV import
+- Bulk operations (toplu işlemler)
+- Import validation
 
 ---
 
-## 🎯 ÖNCELİK SIRASI
+### 6. 👥 Admin Paneli
 
-### Faz 1: Güvenlik (1-2 hafta)
-1. ✅ Şifre şifreleme (bcrypt)
-2. ✅ JWT token authentication
-3. ✅ API güvenlik middleware
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 8-10 saat
 
-### Faz 2: UX İyileştirmeleri (1 hafta)
-1. ✅ Loading states
-2. ✅ Error handling (Toast)
-3. ✅ Form iyileştirmeleri
-
-### Faz 3: Özellik Ekleme (2-3 hafta)
-1. ✅ Ürün görselleri
-2. ✅ Kategori yönetimi
-3. ✅ Gelişmiş arama/filtreleme
-
-### Faz 4: Kod Kalitesi (1-2 hafta)
-1. ✅ State management (Context)
-2. ✅ API client (Axios)
-3. ✅ Environment variables
-
-### Faz 5: Performans (1 hafta)
-1. ✅ Lazy loading
-2. ✅ Database optimizasyonu
+- Admin rolü ve yetkilendirme
+- Tüm kullanıcıları görüntüleme
+- Tüm ürünleri yönetme
+- Sistem istatistikleri
+- Kullanıcı yönetimi (ban, silme)
+- Log görüntüleme
 
 ---
 
-## 📝 NOTLAR
+### 7. 🎨 UI/UX İyileştirmeleri
+
+#### 7.1 Animasyonlar
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
+
+- Framer Motion entegrasyonu
+- Sayfa geçiş animasyonları
+- Loading animasyonları
+- Hover efektleri
+
+#### 7.2 Responsive İyileştirmeleri
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
+
+- Mobil navigation (hamburger menu)
+- Touch-friendly butonlar
+- Tablet görünümü optimizasyonu
+- Responsive tablo
+
+#### 7.3 UI Kütüphanesi
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 3-4 saat
+
+- Material-UI veya Tailwind CSS
+- Icon kütüphanesi (react-icons)
+- Tema sistemi iyileştirmesi
+
+---
+
+### 8. ⚡ Performans İyileştirmeleri
+
+#### 8.1 Lazy Loading
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
+
+- React.lazy() ile code splitting
+- Route bazlı lazy loading
+- Image lazy loading
+
+#### 8.2 Caching
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 3-4 saat
+
+- React Query veya SWR
+- API response caching
+- Stale-while-revalidate pattern
+
+#### 8.3 Database Optimizasyonu
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐ Orta  
+**Tahmini Süre:** 2-3 saat
+
+- Index'ler ekle (email, userId, category)
+- Aggregation pipeline optimizasyonu
+- Select only needed fields
+
+---
+
+### 9. 🌐 Çoklu Dil Desteği
+
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 4-5 saat
+
+- i18n (react-i18next)
+- Dil dosyaları (TR, EN)
+- Dil değiştirme butonu
+- localStorage'da dil tercihi
+
+---
+
+### 10. 📱 PWA (Progressive Web App)
+
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 5-6 saat
+
+- Service Worker
+- Offline desteği
+- Install prompt
+- Push notifications
+
+---
+
+### 11. 🧪 Testing
+
+**Öncelik:** 🟡 Orta  
+**Zorluk:** ⭐⭐⭐ Zor  
+**Tahmini Süre:** 8-10 saat
+
+- Unit testler (Jest)
+- Component testleri (React Testing Library)
+- API testleri (Supertest)
+- E2E testler (Cypress)
+
+---
+
+### 12. 📚 Dokümantasyon
+
+**Öncelik:** 🟢 Düşük  
+**Zorluk:** ⭐ Kolay  
+**Tahmini Süre:** 2-3 saat
+
+- API dokümantasyonu (Swagger/OpenAPI)
+- Component dokümantasyonu
+- Kod yorumları
+- Kullanım kılavuzu
+
+---
+
+## 🎯 Öncelik Sırası
+
+### Faz 1: Temel İyileştirmeler (1-2 hafta)
+1. Ürün görselleri
+2. Dashboard grafikleri
+3. Gelişmiş filtreleme
+
+### Faz 2: Güvenlik (1 hafta)
+1. Şifre sıfırlama
+2. Email doğrulama
+3. Refresh token
+
+### Faz 3: İleri Özellikler (2-3 hafta)
+1. Admin paneli
+2. Export/Import
+3. Full-text search
+
+### Faz 4: Performans ve Test (1-2 hafta)
+1. Lazy loading
+2. Database optimizasyonu
+3. Testing
+
+---
+
+## 🛠️ Kullanılacak Kütüphaneler
+
+### Backend
+- `multer` - File upload
+- `nodemailer` - Email gönderme
+- `helmet` - Security headers
+- `express-validator` - Input validation
+- `swagger` - API dokümantasyonu
+
+### Frontend
+- `framer-motion` - Animasyonlar
+- `chart.js` veya `recharts` - Grafikler
+- `react-i18next` - Çoklu dil
+- `react-query` veya `swr` - Data fetching
+- `react-icons` - Icon'lar
+
+---
+
+## 📝 Notlar
 
 - Her faz bağımsız olarak uygulanabilir
 - Öncelikler proje ihtiyacına göre değiştirilebilir
@@ -332,33 +321,13 @@
 
 ---
 
-## 🛠️ KULLANILACAK KÜTÜPHANELER
-
-### Backend
-- `bcryptjs` - Şifre şifreleme
-- `jsonwebtoken` - JWT token
-- `express-rate-limit` - Rate limiting
-- `multer` - File upload
-- `helmet` - Security headers
-- `dotenv` - Environment variables
-
-### Frontend
-- `axios` - HTTP client
-- `react-toastify` - Toast notifications
-- `react-icons` - Icons
-- `react-query` veya `swr` - Data fetching
-- `framer-motion` - Animations (opsiyonel)
-- `chart.js` veya `recharts` - Grafikler
-
----
-
-## 🎓 ÖĞRENME FIRSATLARI
+## 🎓 Öğrenme Fırsatları
 
 Bu geliştirmeler sırasında öğrenilecekler:
-- ✅ Güvenlik best practices
-- ✅ JWT authentication
-- ✅ File upload handling
-- ✅ State management patterns
-- ✅ Performance optimization
-- ✅ Testing strategies
-- ✅ Modern React patterns
+- File upload handling
+- Email servisleri
+- Grafik kütüphaneleri
+- Testing strategies
+- Performance optimization
+- PWA development
+- i18n implementation
